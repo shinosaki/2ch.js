@@ -1,0 +1,9 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+  li.message .body a {
+    @apply text-blue-600 visited:text-blue-800;
+  }
+}
