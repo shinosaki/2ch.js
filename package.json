@@ -16,8 +16,8 @@
     "build:pages": "wrangler deploy --outdir=dist --dry-run pages.js && mv ./dist/pages.js ./dist/_worker.js && rm ./dist/pages.js.map ./dist/README.md",
     "preview": "vite preview",
     "deploy:bun": "NODE_ENV=production dist/run",
-    "deploy:worker": "npx run build && wrangler deploy",
-    "deploy:pages": "npx run build && npx run build:pages && wrangler pages deploy ./dist"
+    "deploy:worker": "npm run build && wrangler deploy",
+    "deploy:pages": "npm run build && npx run build:pages && wrangler pages deploy ./dist"
   },
   "dependencies": {
     "@tabler/icons-preact": "^2.45.0",
