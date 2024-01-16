@@ -48,6 +48,7 @@
   "homepage": "https://github.com/shinosaki/2ch.js",
   "dependencies": {
     "@tabler/icons-preact": "^2.45.0",
+    "2ch.js": "^0.1.0",
     "hono": "^3.12.4",
     "iconv-lite": "github:shinosaki/iconv-lite",
     "preact": "^10.19.3"
