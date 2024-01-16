@@ -1,0 +1,38 @@
+{
+  "name": "2ch.js",
+  "version": "0.1.0",
+  "description": "2ch compatible viewer/DAT parser",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/cjs/index.js",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "scripts": {
+    "package:build": "npm run package:build:esm && npm run package:build:cjs",
+    "package:build:esm": "esbuild --outfile=dist/index.js ../lib/parser.js",
+    "package:build:cjs": "esbuild --outfile=dist/cjs/index.js --format=cjs ../lib/parser.js"
+  },
+  "author": "Shinosaki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinosaki/2ch.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shinosaki/2ch.js/issues"
+  },
+  "keywords": [
+    "2ch",
+    "5ch",
+    "dat",
+    "parser"
+  ],
+  "homepage": "https://github.com/shinosaki/2ch.js"
+}
