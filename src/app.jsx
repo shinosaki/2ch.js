@@ -52,12 +52,19 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
     fetchApi({ cache: 'force-cache' })
   }, [url])
 
+  const dat2readcgi = v => {
+    const url = new URL(v)
+    const board = url.pathname.split('/').filter(v => v).shift()
+    const id = url.pathname.split('/').pop().split('.')[0]
+    return `${url.origin}/test/read.cgi/${board}/${id}`
+  }
+
   return (
     <>
       <ul class="divide-y-2 text-sm">
         {lists.map(({ subject, res, url }) => (
           <li class="p-1.5 break-words">
-            <a href={url} onClick={e => {
+            <a href={dat2readcgi(url)} onClick={e => {
               e.preventDefault();
               const url = e.target.href;
               if (!threads.some(v => v.url === url)) {
