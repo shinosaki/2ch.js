@@ -7,17 +7,17 @@
   ],
   "main": "dist/cjs/index.js",
   "type": "module",
-  "module": "dist/index.js",
+  "module": "dist/esm/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     }
   },
   "scripts": {
     "package:build": "npm run package:build:esm && npm run package:build:cjs",
-    "package:build:esm": "esbuild --outfile=dist/index.js ../lib/parser.js",
-    "package:build:cjs": "esbuild --outfile=dist/cjs/index.js --format=cjs ../lib/parser.js"
+    "package:build:esm": "esbuild --outdir=dist/esm/ ../lib/*",
+    "package:build:cjs": "esbuild --outdir=dist/cjs/ --format=cjs ../lib/*"
   },
   "author": "Shinosaki",
   "license": "MIT",
