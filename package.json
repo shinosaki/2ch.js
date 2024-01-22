@@ -19,7 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "@tabler/icons-preact": "^2.45.0",
-    "2ch.js": "^0.1.1",
     "hono": "^3.12.4",
     "iconv-lite": "github:shinosaki/iconv-lite",
     "preact": "^10.19.3"
