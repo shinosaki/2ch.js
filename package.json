@@ -1,6 +1,5 @@
 {
   "name": "2ch.js",
-  "version": "0.1.1",
   "description": "2ch compatible viewer/DAT parser",
   "type": "module",
   "scripts": {
