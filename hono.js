@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { decode } from 'iconv-lite'
-import { Dat, Subject, Setting } from '2ch.js'
+import { Dat, Subject, Setting } from './lib'
 
 const app = new Hono()
 

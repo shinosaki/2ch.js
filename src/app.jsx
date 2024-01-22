@@ -1,5 +1,6 @@
 import { toChildArray, isValidElement } from 'preact';
 import { useState, useMemo, useEffect } from 'preact/hooks';
+import { Ikioi, trunc } from '../lib';
 import IconSearch from 'icons/IconSearch';
 import IconRefresh from 'icons/IconRefresh';
 import IconPlus from 'icons/IconPlus';
@@ -59,10 +60,28 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
     return `${url.origin}/test/read.cgi/${board}/${id}`
   }
 
+  const [sortType, setSortType] = useState({})
+  const sortHandler = (setLists, { type } = {}) => {
+    if (type === 'date') {
+      setLists(v => v.toSorted((a, b) => (sortType.date)
+        ? Number(a.dat.split('.')[0]) > Number(b.dat.split('.')[0])
+        : Number(a.dat.split('.')[0]) < Number(b.dat.split('.')[0])
+      ))
+      setSortType(v => ({ date: ('date' in v) ? !v.date : true }))
+    }
+    if (type === 'ikioi') {
+      setLists(v => v.toSorted((a, b) => (sortType.ikioi)
+        ? a.ikioi > b.ikioi
+        : a.ikioi < b.ikioi
+      ))
+      setSortType(v => ({ ikioi: ('ikioi' in v) ? !v.ikioi : true }))
+    }
+  }
+
   return (
     <>
       <ul class="divide-y-2 text-sm">
-        {lists.map(({ subject, res, url }) => (
+        {lists.map(({ subject, res, url, dat, ikioi }) => (
           <li class="p-1.5 break-words">
             <a href={dat2readcgi(url)} onClick={e => {
               e.preventDefault();
@@ -74,10 +93,24 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
               };
               setViewerOpenKey(url);
             }}>{subject} ({res})</a>
+            <div class="justify-end flex gap-2">
+              <p class="text-xs">{trunc(ikioi, 0)}</p>
+              <p class="text-xs font-bold">
+                {new Intl.DateTimeFormat('ja-JP', {
+                  dateStyle: 'medium',
+                  timeStyle: 'medium'
+                }).format(new Date(Number(dat.split('.')[0]) * 1000))}
+              </p>
+            </div>
           </li>
         ))}
       </ul>
-      <nav class="sticky bottom-0 p-1.5 bg-gray-300 flex justify-between">
+      <nav class="sticky bottom-0 p-1.5 bg-gray-300 flex gap-2">
+        <button onClick={() => sortHandler(setLists, { type: 'date' })} class="text-sm font-bold flex flex-col justify-center">
+          <span>日付</span>
+          {(sortType.date == null) ? '' : <><span>{(sortType.date) ? '(新)' : '(古)'}</span></>}
+        </button>
+        <button onClick={() => sortHandler(setLists, { type: 'ikioi' })} class="text-sm font-bold mr-auto">勢い</button>
         <button onClick={addHandler}><IconPlus size={30} /></button>
         <button onClick={fetchApi}><IconRefresh size={30} /></button>
       </nav>
