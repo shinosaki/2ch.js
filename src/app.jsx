@@ -17,15 +17,15 @@ function Wrapper () {
     JSON.parse(localStorage.getItem('threads') ?? '[]')
   );
   const [viewerOpenKey, setViewerOpenKey] = useState(
-    JSON.parse(localStorage.getItem('viewerOpenKey'))
+    JSON.parse(localStorage.getItem('viewerOpenKey') ?? null)
   );
 
   useEffect(() => {
-    localStorage.setItem('threads', JSON.stringify(threads))
+    localStorage.setItem('threads', JSON.stringify(threads ?? null))
   }, [threads])
 
   useEffect(() => {
-    localStorage.setItem('viewerOpenKey', JSON.stringify(viewerOpenKey))
+    localStorage.setItem('viewerOpenKey', JSON.stringify(viewerOpenKey ?? null))
   }, [viewerOpenKey])
 
   return (
@@ -138,11 +138,11 @@ function Subback ({ setViewerOpenKey, threads, setThreads }) {
   );
 
   useEffect(() => {
-    localStorage.setItem('sites', JSON.stringify(sites))
+    localStorage.setItem('sites', JSON.stringify(sites ?? null))
   }, [sites])
 
   useEffect(() => {
-    localStorage.setItem('subbackOpenKey', JSON.stringify(subbackOpenKey))
+    localStorage.setItem('subbackOpenKey', JSON.stringify(subbackOpenKey ?? null))
   }, [subbackOpenKey])
 
   useEffect(() => {
