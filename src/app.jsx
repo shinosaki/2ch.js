@@ -121,11 +121,17 @@ function Subback ({ setViewerOpenKey, threads, setThreads }) {
   const [sites, setSites] = useState(
     JSON.parse(localStorage.getItem('sites') ?? '[]')
   );
-  const [subbackOpenKey, setSubbackOpenKey] = useState();
+  const [subbackOpenKey, setSubbackOpenKey] = useState(
+    JSON.parse(localStorage.getItem('subbackOpenKey'))
+  );
 
   useEffect(() => {
     localStorage.setItem('sites', JSON.stringify(sites))
   }, [sites])
+
+  useEffect(() => {
+    localStorage.setItem('subbackOpenKey', JSON.stringify(subbackOpenKey))
+  }, [subbackOpenKey])
 
   useEffect(() => {
     if (!JSON.parse(localStorage.getItem('sites')).length) {
