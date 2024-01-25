@@ -233,20 +233,22 @@ function Thread ({ url, threads, setThreads }) {
 
 function Viewer ({ threads, setThreads, viewerOpenKey, setViewerOpenKey }) {
   useEffect(() => {
-    const defaultThreads = [
-      // 'https://greta.5ch.net/poverty/dat/1705137573.dat'
-    ];
+    if (!JSON.parse(localStorage.getItem('threads')).length) {
+      const defaultThreads = [
+        '/welcome.dat'
+      ];
 
-    Promise.all(
-      defaultThreads.map((url) =>
-        fetch(`/api/dat?url=${url}`, { cache: 'force-cache' })
-          .then(r => r.json())
-          .then(r => [url, r])
-      )
-    ).then(r => {
-      const z = r.map(([url, v]) => ({ url, title: v.subject || url.split('/').pop().replace('.dat', '') }))
-      setThreads([...threads, ...z])
-    })
+      Promise.all(
+        defaultThreads.map((url) =>
+          fetch(`/api/dat?url=${url}`, { cache: 'force-cache' })
+            .then(r => r.json())
+            .then(r => [url, r])
+        )
+      ).then(r => {
+        const z = r.map(([url, v]) => ({ url, title: v.subject || url.split('/').pop().replace('.dat', '') }))
+        setThreads([...threads, ...z])
+      })
+    }
   }, [])
 
   return (
