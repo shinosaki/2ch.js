@@ -1,10 +1,10 @@
 import { toChildArray, isValidElement } from 'preact';
 import { useState, useMemo, useEffect } from 'preact/hooks';
-import { Ikioi, trunc } from '../lib';
-import IconSearch from 'icons/IconSearch';
+import { trunc } from '../lib';
+// import IconSearch from 'icons/IconSearch';
 import IconRefresh from 'icons/IconRefresh';
 import IconPlus from 'icons/IconPlus';
-import IconX from 'icons/IconX';
+// import IconX from 'icons/IconX';
 
 export function App() {
   return (
