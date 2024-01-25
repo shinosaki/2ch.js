@@ -118,22 +118,33 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
 }
 
 function Subback ({ setViewerOpenKey, threads, setThreads }) {
-  const [sites, setSites] = useState([]);
+  const [sites, setSites] = useState(
+    JSON.parse(localStorage.getItem('sites') ?? '[]')
+  );
   const [subbackOpenKey, setSubbackOpenKey] = useState();
 
-  useEffect(() => {
-    const defaultBoards = ['https://greta.5ch.net/poverty', 'https://nova.5ch.net/livegalileo'];
+  useEffect((v) => {
+    localStorage.setItem('sites', JSON.stringify(sites))
+  }, [sites])
 
-    Promise.all(
-      defaultBoards.map((url) =>
-        fetch(`/api/setting?url=${url}/SETTING.TXT`, { cache: 'force-cache' })
-          .then(r => r.json())
-          .then(r => [url, r])
-      )
-    ).then(r => {
-      const z = r.map(([url, v]) => ({ url, title: v.BBS_TITLE_ORIG || url.split('/').pop() }))
-      setSites([...sites, ...z])
-    })
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem('sites')).length) {
+      const defaultBoards = [
+        'https://greta.5ch.net/poverty',
+        'https://nova.5ch.net/livegalileo'
+      ];
+
+      Promise.all(
+        defaultBoards.map((url) =>
+          fetch(`/api/setting?url=${url}/SETTING.TXT`, { cache: 'force-cache' })
+            .then(r => r.json())
+            .then(r => [url, r])
+        )
+      ).then(r => {
+        const z = r.map(([url, v]) => ({ url, title: v.BBS_TITLE_ORIG || url.split('/').pop() }))
+        setSites([...sites, ...z])
+      })
+    }
   }, [])
 
   return (
