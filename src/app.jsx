@@ -219,7 +219,7 @@ function Thread ({ url, threads, setThreads }) {
               <p>{date}</p>
               <p>{uid}</p>
             </div>
-            <div class="body" dangerouslySetInnerHTML={{ __html: body }} />
+            <div class="body break-words" dangerouslySetInnerHTML={{ __html: body }} />
           </li>
         ))}
       </ul>
