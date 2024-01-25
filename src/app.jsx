@@ -48,10 +48,10 @@ function Wrapper () {
 function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey }) {
   const [lists, setLists] = useState([]);
 
-  const fetchApi = (options = {}) => {
+  const fetchApi = (options = {}, isUpdateSortType = true) => {
     fetch(`/api/subject?url=${url}/subject.txt`, options)
       .then(r => r.json())
-      .then(r => setLists(r))
+      .then(r => setLists(sortHandler(r, sortType, isUpdateSortType)))
   }
 
   const addHandler = () => {
@@ -62,7 +62,7 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
   }
 
   useEffect(() => {
-    fetchApi({ cache: 'force-cache' })
+    fetchApi({ cache: 'force-cache' }, false)
   }, [url])
 
   const dat2readcgi = v => {
@@ -72,21 +72,37 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
     return `${url.origin}/test/read.cgi/${board}/${id}`
   }
 
-  const [sortType, setSortType] = useState({})
-  const sortHandler = (setLists, { type } = {}) => {
+  const [sortType, setSortType] = useState(
+    JSON.parse(localStorage.getItem('sortType') ?? '{}')
+  )
+
+  useEffect(() => {
+    localStorage.setItem('sortType', JSON.stringify(sortType))
+  }, [sortType])
+
+  const sortByDate = (l) => {
+    return l.sort((a, b) => (sortType.date)
+      ? Number(a.dat.split('.')[0]) > Number(b.dat.split('.')[0])
+      : Number(a.dat.split('.')[0]) < Number(b.dat.split('.')[0])
+    )
+  }
+  const sortByIkioi = (l) => {
+    return l.sort((a, b) => (sortType.ikioi)
+      ? a.ikioi > b.ikioi
+      : a.ikioi < b.ikioi
+    )
+  }
+
+  const sortHandler = (lists, { type } = {}, isUpdateSortType = true) => {
     if (type === 'date') {
-      setLists(v => v.toSorted((a, b) => (sortType.date)
-        ? Number(a.dat.split('.')[0]) > Number(b.dat.split('.')[0])
-        : Number(a.dat.split('.')[0]) < Number(b.dat.split('.')[0])
-      ))
-      setSortType(v => ({ date: ('date' in v) ? !v.date : true }))
+      const data = sortByDate(lists)
+      if (isUpdateSortType) setSortType(v => ({ type, date: ('date' in v) ? !v.date : true }))
+      return data
     }
     if (type === 'ikioi') {
-      setLists(v => v.toSorted((a, b) => (sortType.ikioi)
-        ? a.ikioi > b.ikioi
-        : a.ikioi < b.ikioi
-      ))
-      setSortType(v => ({ ikioi: ('ikioi' in v) ? !v.ikioi : true }))
+      const data = sortByIkioi(lists)
+      if (isUpdateSortType) setSortType(v => ({ type, ikioi: ('ikioi' in v) ? !v.ikioi : true }))
+      return data
     }
   }
 
@@ -117,11 +133,11 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
         ))}
       </ul>
       <nav class="sticky bottom-0 p-1.5 bg-gray-300 flex gap-2">
-        <button onClick={() => sortHandler(setLists, { type: 'date' })} class="text-sm font-bold flex flex-col justify-center">
+        <button onClick={() => sortHandler(lists, { type: 'date' })} class="text-sm font-bold flex flex-col justify-center">
           <span>日付</span>
           {(sortType.date == null) ? '' : <><span>{(sortType.date) ? '(新)' : '(古)'}</span></>}
         </button>
-        <button onClick={() => sortHandler(setLists, { type: 'ikioi' })} class="text-sm font-bold mr-auto">勢い</button>
+        <button onClick={() => sortHandler(lists, { type: 'ikioi' })} class="text-sm font-bold mr-auto">勢い</button>
         <button onClick={addHandler}><IconPlus size={30} /></button>
         <button onClick={fetchApi}><IconRefresh size={30} /></button>
       </nav>
