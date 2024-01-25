@@ -123,7 +123,7 @@ function Subback ({ setViewerOpenKey, threads, setThreads }) {
   );
   const [subbackOpenKey, setSubbackOpenKey] = useState();
 
-  useEffect((v) => {
+  useEffect(() => {
     localStorage.setItem('sites', JSON.stringify(sites))
   }, [sites])
 
