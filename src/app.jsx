@@ -85,7 +85,6 @@ function Subjects ({ url, sites, setSites, threads, setThreads, setViewerOpenKey
           <li class="p-1.5 break-words">
             <a href={dat2readcgi(url)} onClick={e => {
               e.preventDefault();
-              const url = e.target.href;
               if (!threads.some(v => v.url === url)) {
                 fetch(`/api/dat?url=${url}`, { cache: 'force-cache' })
                   .then(r => r.json())
