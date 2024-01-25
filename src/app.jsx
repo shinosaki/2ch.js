@@ -13,8 +13,20 @@ export function App() {
 }
 
 function Wrapper () {
-  const [threads, setThreads] = useState([]);
-  const [viewerOpenKey, setViewerOpenKey] = useState();
+  const [threads, setThreads] = useState(
+    JSON.parse(localStorage.getItem('threads') ?? '[]')
+  );
+  const [viewerOpenKey, setViewerOpenKey] = useState(
+    JSON.parse(localStorage.getItem('viewerOpenKey'))
+  );
+
+  useEffect(() => {
+    localStorage.setItem('threads', JSON.stringify(threads))
+  }, [threads])
+
+  useEffect(() => {
+    localStorage.setItem('viewerOpenKey', JSON.stringify(viewerOpenKey))
+  }, [viewerOpenKey])
 
   return (
     <div class="grid grid-cols-3">
