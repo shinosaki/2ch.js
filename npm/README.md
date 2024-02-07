@@ -3,12 +3,15 @@
 
 ウェブブラウザで動作する2ch互換掲示板ビューア/DATパーサー
 
-![ScreenShot](https://github.com/shinosaki/2ch.js/assets/88357168/ff69cafb-fb96-429f-bf57-0f576ead7e3b)
+![ScreenShot](./screenshot.png)
 
-## ToDo
+## Features / 機能
 - タブの永続化
 
-## Deploy
+## ToDo
+- 検索機能
+
+## Deploy / デプロイ
 ```bash
 ## Cloudflare Workers
 $ npm run deploy:worker
@@ -22,6 +25,12 @@ $ npm run build:bun
 $ NODE_ENV=production ./dist/run
 ## And open http://localhost:3000
 ```
+
+## Author
+[Shinosaki](https://shinosaki.com)
+
+## UI
+React & shadcn/ui
 
 ## License
 [MIT](./LICENSE)
