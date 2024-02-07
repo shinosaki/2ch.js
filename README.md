@@ -3,7 +3,7 @@
 
 ウェブブラウザで動作する2ch互換掲示板ビューア/DATパーサー
 
-![ScreenShot](https://github.com/shinosaki/2ch.js/assets/88357168/ff69cafb-fb96-429f-bf57-0f576ead7e3b)
+![ScreenShot](./screenshot.png)
 
 ## Features / 機能
 - タブの永続化
