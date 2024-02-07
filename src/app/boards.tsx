@@ -43,11 +43,11 @@ export default function Boards({ setThreadTabs, setActiveThreadTab }) {
   const [tabs, setTabs] = useState([
     {
       url: 'https://greta.5ch.net/poverty',
-      title: '¥Ë¥å©`ËÙ(ÏÓƒ¦)',
+      title: 'ãƒ‹ãƒ¥ãƒ¼é€Ÿ(å«Œå„²)',
     },
     {
       url: 'https://nova.5ch.net/livegalileo',
-      title: '¤Ê¤ó¤Ç¤âŒg›r(¥¬¥ê¥ì¥ª)',
+      title: 'ãªã‚“ã§ã‚‚å®Ÿæ³(ã‚¬ãƒªãƒ¬ã‚ª)',
     }
   ])
 
