@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { cn, LS } from '@/lib/utils'
 import {
   Tabs,
   TabsContent,
@@ -40,26 +40,26 @@ import BoardList from './board-list.tsx'
 import Loading from './loading.tsx'
 
 export default function Boards({ setThreadTabs, setActiveThreadTab }) {
-  const [tabs, setTabs] = useState([
-    {
-      url: 'https://greta.5ch.net/poverty',
-      title: 'ニュー速(嫌儲)',
-    },
-    {
-      url: 'https://nova.5ch.net/livegalileo',
-      title: 'なんでも実況(ガリレオ)',
-    }
+  const [tabs, setTabs] = useState(LS.get('boardTabs') ?? [
+    { title: 'ニュー速(嫌儲)', url: 'https://greta.5ch.net/poverty' },
+    { title: 'なんでも実況(ガリレオ)', url: 'https://nova.5ch.net/livegalileo' },
   ])
+  useEffect(() => LS.set('boardTabs', tabs), [tabs])
 
-  const [activeTab, setActiveTab] = useState(tabs[0].url)
+  const [activeTab, setActiveTab] = useState(LS.get('activeBoardTab') ?? tabs[0].url)
+  useEffect(() => LS.set('activeBoardTab', activeTab), [activeTab])
+
   const scrollElement = useRef(null)
 
   const sortTypes = [
     { value: 'ikioi', title: 'Ikioi' },
     { value: 'date', title: 'Date' },
   ]
-  const [sortType, setSortType] = useState(sortTypes[0].value)
-  const [sortDesc, setSortDesc] = useState(true)
+  const [sortType, setSortType] = useState(LS.get('sortType') ?? sortTypes[0].value)
+  useEffect(() => LS.set('sortType', sortType), [sortType])
+
+  const [sortDesc, setSortDesc] = useState(LS.get('sortDesc') ?? true)
+  useEffect(() => LS.set('sortDesc', sortDesc), [sortDesc])
 
   const [subjects, setSubjects] = useState([])
 

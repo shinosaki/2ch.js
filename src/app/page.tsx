@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { LS } from '@/lib/utils'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,13 +9,11 @@ import Threads from './threads.tsx'
 import Boards from './boards.tsx'
 
 export default function App() {
-  const [threadTabs, setThreadTabs] = useState([
-    {
-      title: '2ちゃんねるリーダー 2ch.js について',
-      url: '/welcome.dat',
-    }
-  ])
-  const [activeThreadTab, setActiveThreadTab] = useState(threadTabs[0]?.url)
+  const [threadTabs, setThreadTabs] = useState(LS.get('threadTabs') ?? [{ title: '2ちゃんねるリーダー 2ch.js について', url: '/welcome.dat' }])
+  useEffect(() => LS.set('threadTabs', threadTabs), [threadTabs])
+
+  const [activeThreadTab, setActiveThreadTab] = useState(LS.get('activeThreadTab') ?? threadTabs[0]?.url)
+  useEffect(() => LS.set('activeThreadTab', activeThreadTab), [activeThreadTab])
 
   return (
     <ResizablePanelGroup
