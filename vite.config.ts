@@ -1,8 +1,10 @@
+import path from 'path'
 import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
+import react from '@vitejs/plugin-react-swc'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [preact()],
+  plugins: [react()],
   server: {
     proxy: {
       '/api': 'http://localhost:3000'
@@ -10,7 +12,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      icons: '@tabler/icons-preact/dist/esm/icons'
+      '@': path.resolve(__dirname, './src')
     }
   }
 })

@@ -29,5 +29,8 @@ $ NODE_ENV=production ./dist/run
 ## Author
 [Shinosaki](https://shinosaki.com)
 
+## UI
+React & shadcn/ui
+
 ## License
 [MIT](./LICENSE)
