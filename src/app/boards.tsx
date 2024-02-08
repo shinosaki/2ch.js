@@ -62,6 +62,7 @@ export default function Boards({ setThreadTabs, setActiveThreadTab }) {
   useEffect(() => LS.set('sortDesc', sortDesc), [sortDesc])
 
   const [subjects, setSubjects] = useState([])
+  const [addBoardDialog, setAddBoardDialog] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
@@ -163,38 +164,8 @@ export default function Boards({ setThreadTabs, setActiveThreadTab }) {
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>
-            <Dialog>
-              <DialogTrigger>
-                <Plus />
-              </DialogTrigger>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add New Board</DialogTitle>
-                  <form
-                    className={cn("grid items-start gap-4")}
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      const form = new FormData(e.target)
-                      const url = form.get('board-url')
-                      try { new URL(url) } catch { return null }
-
-                      fetch(`/api/setting?url=${url}/SETTING.TXT`, { cache: 'force-cache' })
-                        .then(r => setTabs(tabs => [...tabs, { url, title: r.BBS_TITLE_ORIG || url.split('/').pop() }]))
-                    }}
-                  >
-                    <div className="grid gap-2">
-                      <Label htmlFor="board-url">Board URL</Label>
-                      <Input type="text" id="board-url" name="board-url" placeholder="https://greta.5ch.net/poverty" />
-                    </div>
-                    <DialogClose>
-                      <Button type="submit">Add Board</Button>
-                    </DialogClose>
-                  </form>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+          <MenubarTrigger onClick={() => setAddBoardDialog(true)}>
+            <Plus />
           </MenubarTrigger>
         </MenubarMenu>
 
@@ -204,6 +175,34 @@ export default function Boards({ setThreadTabs, setActiveThreadTab }) {
           </MenubarTrigger>
         </MenubarMenu>
       </Menubar>
+
+      <Dialog open={addBoardDialog} onOpenChange={setAddBoardDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Board</DialogTitle>
+          </DialogHeader>
+          <form
+            className={cn("grid items-start gap-4")}
+            onSubmit={(e) => {
+              e.preventDefault()
+              const form = new FormData(e.target)
+              const url = form.get('board-url')
+              try { new URL(url) } catch { return null }
+
+              fetch(`/api/setting?url=${url}/SETTING.TXT`, { cache: 'force-cache' })
+                .then(r => setTabs(tabs => [...tabs, { url, title: r.BBS_TITLE_ORIG || url.split('/').pop() }]))
+            }}
+          >
+            <div className="grid gap-2">
+              <Label htmlFor="board-url">Board URL</Label>
+              <Input type="text" id="board-url" name="board-url" placeholder="https://greta.5ch.net/poverty" />
+            </div>
+            <DialogClose>
+              <Button type="submit">Add Board</Button>
+            </DialogClose>
+          </form>
+        </DialogContent>
+      </Dialog>
     </Tabs>
   )
 }

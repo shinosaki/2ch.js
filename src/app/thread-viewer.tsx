@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { cn } from '@/lib/utils'
 
-export default function ThreadViewer({ url, comments, setComments }) {
+export default function ThreadViewer({ url, comments, setComments, ngWordList }) {
   useEffect(() => {
     fetch(`/api/dat?url=${url}`, { cache: 'force-cache' })
       .then(r => r.json())
@@ -22,9 +22,16 @@ export default function ThreadViewer({ url, comments, setComments }) {
     return () => anchors.map(e => e.removeEventListener('click', smoothClickHandler))
   }, [comments])
 
+  // NG
+  const filteredComments = useMemo(() => {
+    return comments.filter(({ body }) =>
+      !ngWordList.some(word => body.includes(word))
+    )
+  }, [comments, ngWordList])
+
   return (
     <ul className="divide-y scroll-smooth">
-      {comments ? comments.map(({ id, body, uid, be, name, email, date, anchor }) => (
+      {filteredComments ? filteredComments.map(({ id, body, uid, be, name, email, date, anchor }) => (
         <li key={id} id={`comment-${id}`} className="message p-1">
           <div className="flex flex-wrap gap-x-2">
             <p>{id} <span className={anchor ? '' : 'hidden'}>({anchor})</span></p>
