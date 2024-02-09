@@ -59,7 +59,7 @@ export default function Threads({ tabs, setTabs, activeTab, setActiveTab }) {
         .finally(() => {
           setIsLoading(false)
           setTimeout(() => {
-            document.getElementById(latestCommentId)?.scrollIntoView({
+            document.getElementById(`comment-${latestCommentId}`)?.scrollIntoView({
               behavior: 'smooth',
               block: 'center',
             })
