@@ -39,7 +39,7 @@ import { changeTabHandler, closeTabHandler } from './utils'
 import BoardList from './board-list.tsx'
 import Loading from './loading.tsx'
 
-export default function Boards({ setThreadTabs, setActiveThreadTab }) {
+export default function Boards({ setThreadTabs, activeThreadTab, setActiveThreadTab }) {
   const [tabs, setTabs] = useState(LS.get('boardTabs') ?? [
     { title: 'ニュー速(嫌儲)', url: 'https://greta.5ch.net/poverty' },
     { title: 'なんでも実況(ガリレオ)', url: 'https://nova.5ch.net/livegalileo' },
@@ -121,6 +121,7 @@ export default function Boards({ setThreadTabs, setActiveThreadTab }) {
               subjects={subjects}
               setSubjects={setSubjects}
               setThreadTabs={setThreadTabs}
+              activeThreadTab={activeThreadTab}
               setActiveThreadTab={setActiveThreadTab}
             />
           </TabsContent>

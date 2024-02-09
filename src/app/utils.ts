@@ -21,7 +21,15 @@ export const changeTabHandler = ({
   activeTab,
   setActiveTab
 }) => {
-  const viewport = [...scrollElement.current.children].find(e => e.hasAttribute('data-radix-scroll-area-viewport'))
+  const scrollElementHeight = ('current' in scrollElement)
+    ? scrollElement.current.scrollHeight
+    : scrollElement.scrollHeight
+
+  const children = ('current' in scrollElement)
+    ? [...scrollElement.current.children]
+    : [...scrollElement.children]
+
+  const viewport = children.find(e => e.hasAttribute('data-radix-scroll-area-viewport'))
 
   sessionStorage.setItem(activeTab, viewport.scrollTop)
 
@@ -29,7 +37,7 @@ export const changeTabHandler = ({
     // <BoardList> 内の項目が多い場合など
     // レンダリング中に scrollTo() が実行されることを防ぐために
     // scrollHeight が 350 以上になるまで待機
-    if (viewport.scrollHeight > scrollElement.current.scrollHeight) {
+    if (viewport.scrollHeight > scrollElementHeight) {
       viewport.scrollTo({
         top: sessionStorage.getItem(newTab) ?? 0,
         behavior: 'smooth'

@@ -1,7 +1,8 @@
 import { useMemo, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { changeTabHandler } from './utils'
 
-export default function BoardList({ url, sortDesc, sortType, subjects, setSubjects, setThreadTabs, setActiveThreadTab }) {
+export default function BoardList({ url, sortDesc, sortType, subjects, setSubjects, setThreadTabs, activeThreadTab, setActiveThreadTab }) {
   useEffect(() => {
     fetch(`/api/subject?url=${url}/subject.txt`, { cache: 'force-cache' })
       .then(r => r.json())
@@ -33,7 +34,13 @@ export default function BoardList({ url, sortDesc, sortType, subjects, setSubjec
                   ? tabs
                   : [...tabs, { url, title: subject }]
               )
-              setActiveThreadTab(url)
+              // setActiveThreadTab(url)
+              changeTabHandler({
+                newTab: url,
+                scrollElement: document.getElementById('thread-scroll-area'),
+                activeTab: activeThreadTab,
+                setActiveTab: setActiveThreadTab,
+              })
               const interval = setInterval(() => {
                 if (document.getElementById(url)) {
                   document.getElementById(url).scrollIntoView()

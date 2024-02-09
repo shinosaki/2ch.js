@@ -24,6 +24,7 @@ export default function App() {
       >
         <Boards
           setThreadTabs={setThreadTabs}
+          activeThreadTab={activeThreadTab}
           setActiveThreadTab={setActiveThreadTab}
         />
       </ResizablePanel>

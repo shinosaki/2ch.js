@@ -102,6 +102,7 @@ export default function Threads({ tabs, setTabs, activeTab, setActiveTab }) {
         asChild
         className={cn('flex-grow w-full')}
         viewportClassName={cn('!flex')}
+        id="thread-scroll-area"
         ref={scrollElement}
       >
         {tabs.map(tab => (
